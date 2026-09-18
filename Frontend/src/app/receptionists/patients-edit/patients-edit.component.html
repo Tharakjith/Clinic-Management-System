@@ -1,0 +1,105 @@
+<div class="container">
+    <h3>Edit Patient Info</h3>
+    <hr>
+
+    <!--Template Driven Form-->
+    <form name="frmPatient" #patientForm="ngForm" autocomplete="off" (ngSubmit)="onSubmit(patientForm)">
+
+        <!--PatientId-->
+        <div class="form-group">
+            <label>Patient ID:</label>
+            <input type="text" readonly name="PatientId" class="form-control"
+                [(ngModel)]="patientService.formPatientData.PatientId">
+        </div>
+
+        <!--Patient Name-->
+        <div class="form-group">
+            <label>Patient Name:</label>
+            <input type="text" readonly name="PatientName" class="form-control"
+                [(ngModel)]="patientService.formPatientData.PatientName">
+        </div>
+
+        <!--DOB-->
+        <div class="form-group">
+            <label>Date of Birth:</label>
+            <input type="date" readonly name="DOB" class="form-control"
+                [(ngModel)]="patientService.formPatientData.Dob">
+        </div>
+
+        <!--Gender-->
+        <div class="form-group">
+            <label>Gender:</label>
+            <input type="text" readonly name="Gender" class="form-control"
+                [(ngModel)]="patientService.formPatientData.Gender">
+        </div>
+
+        <!--Blood Group-->
+        <div class="form-group">
+            <label>Blood Group:</label>
+            <input type="text" readonly name="BloodGroup" class="form-control"
+                [(ngModel)]="patientService.formPatientData.BloodGroup">
+        </div>
+
+        <!--Patient Phone-->
+        <div class="form-group">
+            <label>Patient Phone:</label>
+            <input type="text" name="PatientPhone" #PatientPhone="ngModel"
+                [(ngModel)]="patientService.formPatientData.PatientPhone" class="form-control"
+                placeholder="Enter Phone Number" minlength="10" maxlength="10" required
+                [ngClass]="{'is-invalid': PatientPhone.touched && PatientPhone.invalid}">
+            <!--Validation msg-->
+            <div class="Validation-error" *ngIf="PatientPhone.touched && PatientPhone.invalid">
+                <div *ngIf="PatientPhone.errors?.['required']">
+                    Phone number is required!
+                </div>
+            </div>
+        </div>
+
+        <!--Patient Address-->
+        <div class="form-group">
+            <label>Patient Address:</label>
+            <textarea name="PatientAddress" #PatientAddress="ngModel"
+                [(ngModel)]="patientService.formPatientData.PatientAddress" class="form-control"
+                placeholder="Enter Address" minlength="5" maxlength="100" required
+                [ngClass]="{'is-invalid': PatientAddress.touched && PatientAddress.invalid}">
+            </textarea>
+            <!--Validation msg-->
+            <div class="Validation-error" *ngIf="PatientAddress.touched && PatientAddress.invalid">
+                <div *ngIf="PatientAddress.errors?.['required']">
+                    Address is required!
+                </div>
+            </div>
+        </div>
+
+        <!--Registration Date-->
+        <div class="form-group">
+            <label>Registration Date:</label>
+            <input type="date" readonly name="RegistrationDate" class="form-control"
+            [(ngModel)]="todayDate">
+        </div>
+
+        <!--Is Active-->
+        
+        <div class="form-group">
+            <div class="form-check">
+                <input type="checkbox" name="IsActive" #IsActive="ngModel" class="form-check-input"
+                    [(ngModel)]="patientService.formPatientData.IsActive">
+                <label class="form-check-label">Is Active</label>
+            </div>
+        </div>
+
+        <!--Submit-->
+        <div class="form-group">
+            <button type="submit" class="btn btn-lg btn-primary form-control"
+                [disabled]="!(patientForm.valid && patientForm.dirty)">
+                Update
+            </button>
+        </div>
+
+        <!-- Error after submit -->
+        <div *ngIf="errorMessage" class="error-message validation-error">
+            {{ errorMessage }}
+        </div>
+
+    </form>
+</div>

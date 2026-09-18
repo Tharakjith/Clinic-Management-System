@@ -1,0 +1,60 @@
+<div class = "container">
+    <!--Medicine Info-->
+    <h3>Medicine Management</h3>
+    <div class = "header">
+        <div class ="row">
+            <!--Search-->
+            <div class=" col-sm-8">
+                <input type= "search" class=" form-control"
+                placeholder="Enter search text here.."
+                [(ngModel)]="searchTerm">
+            </div>
+            <!--Add medicine details Button-->
+            <div class="col-sm-4">
+                <a [routerLink]="['/medicine-managements/add']" role="button" class= "btn btn-outline-primary">
+                    <i class="fa fa-user-plus fa-lg"></i>&nbsp;Add Medicine
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!--Display Records-->
+    <br>
+    <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th scope="col">MedicineId</th>
+            <th scope="col">MedicineName</th>
+            <th scope="col">ManufacturingDate</th>
+            <th scope="col">ExpiryDate</th>
+            <th scope="col">CategoryName</th>
+            <th scope="col">Cost</th>
+            <th scope="col">Active</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let medicineDetail of this.filteredMedicineDetails()
+          | paginate: { itemsPerPage: pageSize, currentPage: page }">
+            <td>{{'M' + medicineDetail.MedicineId}}</td>
+            <td>{{medicineDetail.MedicineName}}</td>
+            <td>{{medicineDetail.ManufacturingDate | date:"dd-MM-yyyy"}}</td>
+            <td>{{medicineDetail.ExpiryDate | date:"dd-MM-yyyy"}}</td>
+            <td>{{ getCategoryName(medicineDetail.CategoryId) }}</td>
+            <td>{{medicineDetail.Cost}}</td>
+            <td><input type="checkbox"[checked]="medicineDetail.IsActive" disabled></td> 
+            <td>
+                <button class="btn btn-sm btn btn-outline-info" (click)="editMedicineDetails(medicineDetail)">
+                <i class="fa fa-edit"></i></button>
+                &nbsp;
+                <button class="btn btn-sm btn-outline-info" (click)="deleteMedicineDetails(medicineDetail)">
+                    <i class="fa fa-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!--footer-->
+      <div class="footer">
+        <pagination-controls class ="custom-page" (pageChange)= "page = $event"></pagination-controls>
+      </div>
+</div>

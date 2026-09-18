@@ -1,0 +1,96 @@
+<div class="container mt-4">
+    <!-- Header -->
+    <h3 class="text-center mb-4">List of tests</h3>
+  
+    <!-- Search and Add Staff -->
+    <div class="row mb-3">
+      <!-- Search -->
+      <div class="col-md-8">
+        <input
+          type="search"
+          class="form-control"
+          placeholder="Search staff here..."
+          [(ngModel)]="searchTerm"
+        />
+      </div>
+     
+
+      <!-- Add Staff -->
+      <div class="col-md-4 text-md-end text-center">
+        <a [routerLink]="['/lab/add']" role="button" class="btn btn-outline-primary">
+
+          <i class="fa fa-user-plus fa-lg"></i>&nbsp;Add test
+        </a>
+      </div>
+    </div>
+  
+    <!-- Employee Records Table -->
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped">
+        <thead class="thead-dark text-center">
+          <tr>
+            <th scope="col">Test Code</th>
+            <th scope="col">Test Name</th>
+            <th scope="col">Price</th>
+           
+            <th scope="col">LowRange</th>
+            <th scope="col"> HighRange</th>
+            <th scope="col">Sample</th>
+           
+            <th scope="col">Created Date</th>
+            <th scope="col">Is Active</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr
+            *ngFor="let labs of filteredtests() 
+          | paginate: { itemsPerPage: pageSize, currentPage: page }"
+          >
+            <td>{{ 'LT' + labs.LabTestId }}</td>
+            <td>{{ labs.TestName }}</td>
+            
+            <td>{{ labs.Price }}</td>
+            <td>{{ labs.LowRange }}</td>
+            <td>{{ labs.HighRange }}</td>
+            <td>{{ labs.Sample }}</td>
+            <td>{{ labs.CreatedDate | date: 'yyyy-MM-dd' }}</td>
+            <td>
+              <input
+                type="checkbox"
+                [checked]="labs.IsActive"
+                class="form-check-input"
+                disabled
+              />
+            </td>
+            <td class="text-center">
+              <button
+                class="btn btn-sm btn-outline-info"
+                (click)="Updatetests(labs)"
+                title="Edit"
+              >
+                <i class="fa fa-edit"></i>
+              </button>
+              &nbsp;
+              <button
+                class="btn btn-sm btn-outline-danger"
+                (click)="deleteStaff(labs)"
+                title="Delete"
+              >
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Pagination -->
+    <div class="footer text-center mt-3">
+      <pagination-controls
+        class="custom-page"
+        (pageChange)="page = $event"
+      ></pagination-controls>
+    </div>
+  </div>
+  

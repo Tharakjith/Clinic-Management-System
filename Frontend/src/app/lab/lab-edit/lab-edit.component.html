@@ -1,0 +1,116 @@
+<div class="container py-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3><i class="fa fa-flask text-primary mr-2"></i>Edit Diagnostic Test</h3>
+        <a [routerLink]="['/lab/list']" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+            <i class="fa fa-arrow-left mr-1"></i> Back to Catalog
+        </a>
+    </div>
+    <hr>
+    <form name="frmLabTest" #stForm="ngForm" autocomplete="off" (ngSubmit)="onSubmit(stForm)">
+        <!-- LabTest Id -->
+        <div class="form-group">
+            <input type="hidden" readonly name="LabTestId" class="form-control"
+                [(ngModel)]="labService.formlabData.LabTestId">
+        </div>
+        
+        <!-- Staff Name -->
+        <div class="form-group">
+            <label>Test Name: </label>
+            <input type="text" name="TestName" #TestName="ngModel" 
+                [(ngModel)]="labService.formlabData.TestName" 
+                class="form-control" placeholder="Enter TestName" minlength="3" maxlength="25" required 
+                [ngClass]="{'is-invalid': TestName.touched && TestName.invalid}">
+        </div>
+        <div class="Validation-error" *ngIf="TestName.touched && TestName.invalid">
+            <div *ngIf="TestName.errors?.['required']">Test Name is required!</div>
+        </div>
+
+        <!-- Price -->
+        <div class="form-group">
+            <label>Price: </label>
+            <input type="number" name="Price" #Price="ngModel" 
+                [(ngModel)]="labService.formlabData.Price" 
+                class="form-control" placeholder="Enter Price" required 
+                [ngClass]="{'is-invalid': Price.touched && Price.invalid}">
+        </div>
+        <div class="Validation-error" *ngIf="Price.touched && Price.invalid">
+            <div *ngIf="Price.errors?.['required']">Price is required!</div>
+        </div>
+
+        <!-- LowRange -->
+        <div class="form-group">
+            <label>LowRange: </label>
+            <input type="number" name="LowRange" #LowRange="ngModel" 
+                [(ngModel)]="labService.formlabData.LowRange" 
+                class="form-control" placeholder="Enter LowRange" required 
+                [ngClass]="{'is-invalid': LowRange.touched && LowRange.invalid}">
+        </div>
+        <div class="Validation-error" *ngIf="LowRange.touched && LowRange.invalid">
+            <div *ngIf="LowRange.errors?.['required']">LowRange is required!</div>
+        </div>
+
+        <!-- HighRange -->
+        <div class="form-group">
+            <label>HighRange: </label>
+            <input type="number" name="HighRange" #HighRange="ngModel" 
+                [(ngModel)]="labService.formlabData.HighRange" 
+                class="form-control" placeholder="Enter HighRange" required 
+                [ngClass]="{'is-invalid': HighRange.touched && HighRange.invalid}">
+        </div>
+        <div class="Validation-error" *ngIf="HighRange.touched && HighRange.invalid">
+            <div *ngIf="HighRange.errors?.['required']">HighRange is required!</div>
+        </div>
+        
+<!-- Created date-->
+<div class="form-group">
+    <label>Created date: </label>
+    <input type="date" name="CreatedDate" #CreatedDate="ngModel" 
+        [(ngModel)]="labService.formlabData.CreatedDate" 
+        class="form-control" required 
+        [ngClass]="{'is-invalid': CreatedDate.touched && CreatedDate.invalid}">
+</div>
+<div class="Validation-error" *ngIf="CreatedDate.touched && CreatedDate.invalid">
+    <div *ngIf="CreatedDate.errors?.['required']">CreatedDate is required!</div>
+</div>
+
+        
+
+    
+         
+<div class="form-group">
+    <label>Sample:</label>
+    <select name="Sample" #Sample="ngModel" class="form-control"
+        [(ngModel)]="labService.formlabData.Sample" required>
+        <option value="" selected disabled>---Select Sample---</option>
+        <option value="Blood">Blood</option>
+        <option value="Urine">Urine</option>
+        <option value="Other">Other</option>
+    </select>
+    <div class="Validation-error" *ngIf="Sample.touched && Sample.invalid">
+        <div *ngIf="Sample.errors?.['required']">
+            Sample is required!
+        </div>
+    </div>
+</div>
+        <!-- Is Active -->
+        <div class="form-group">
+            <div class="form-check">
+                <input type="checkbox" name="IsActive" #IsActive="ngModel" 
+                    [(ngModel)]="labService.formlabData.IsActive" 
+                    class="form-check-input">
+                <label class="form-check-label">Is Active</label>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-group mt-4">
+            <button type="submit" class="btn btn-lg btn-success form-control" 
+                [disabled]="!(stForm.valid && stForm.dirty)">
+                <i class="fa fa-save mr-1"></i> UPDATE TEST
+            </button>
+        </div>
+        <div *ngIf="errorMessage" class="error-message validation-error">
+            {{errorMessage}}
+        </div>
+    </form>
+</div>

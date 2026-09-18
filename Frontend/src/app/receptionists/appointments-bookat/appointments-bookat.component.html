@@ -1,0 +1,124 @@
+<div class="container py-4" style="max-width: 680px;">
+  <div class="card border-0 shadow-sm rounded-4 p-4">
+    <div class="d-flex align-items-center mb-3">
+      <div class="p-3 rounded-circle mr-3" style="background: #eff6ff; color: #2563eb; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+        <i class="fa fa-calendar-plus-o fa-lg"></i>
+      </div>
+      <div>
+        <h3 class="font-weight-bold text-dark mb-0">Book Doctor Appointment</h3>
+        <small class="text-muted">Schedule patient consultation and generate visit token</small>
+      </div>
+    </div>
+    <hr class="my-3">
+
+    <form #patform="ngForm" (ngSubmit)="onSubmit(patform)">
+      <!-- Patient ID -->
+      <div class="form-group mb-3">
+        <label class="font-weight-semibold text-muted small">Patient ID / Medical Record #</label>
+        <input
+          type="text"
+          readonly
+          name="PatientId"
+          class="form-control bg-light font-weight-bold text-primary"
+          [(ngModel)]="appointment.PatientId"
+          placeholder="Patient ID"
+          required
+        />
+      </div>
+
+      <!-- Specialization Dropdown -->
+      <div class="form-group mb-3">
+        <label class="font-weight-semibold text-dark">Clinical Specialization <span class="text-danger">*</span></label>
+        <select
+          class="form-control" 
+          [(ngModel)]="appointment.SpecializationId"
+          name="specialization"
+          (change)="onSpecializationChange()"
+          required>
+          <option value="0" disabled selected>Select Specialization</option>
+          <option
+            *ngFor="let spec of specializations"
+            [value]="spec.SpecializationId">    
+            {{ spec.SpecializationName }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Doctor Dropdown -->
+      <div class="form-group mb-3">
+        <label class="font-weight-semibold text-dark">Select Doctor <span class="text-danger">*</span></label>
+        <select class="form-control" [(ngModel)]="appointment.DoctorId" name="doctor" (change)="onDoctorChange()" required>
+          <option value="0" selected disabled>Select Doctor</option>
+          <option *ngFor="let doc of doctorspec" [value]="doc.DoctorId">
+            {{ doc.users.Staff.StaffName }} (Fee: Rs. {{ doc.ConsultationFee }})
+          </option>
+        </select>
+      </div>    
+
+      <!-- Availability Dropdown -->
+      <div class="form-group mb-3">
+        <label class="font-weight-semibold text-dark">Doctor Availability & Time Slot <span class="text-danger">*</span></label>
+        <select class="form-control" [(ngModel)]="selectedAvailabilityId" name="availability" required>
+          <option [value]="0" disabled selected>Select Available Schedule</option>
+          <option *ngFor="let avail of availabilities" [value]="avail.TimeSlotId || avail.AvailabilityId">
+            {{ avail.Weekday || 'Slot' }} &bull; {{ avail.Session || 'Session' }} ({{ avail.StartTime }} - {{ avail.EndTime }})
+          </option>
+        </select>
+        <small class="text-muted" *ngIf="availabilities.length === 0 && appointment.DoctorId">
+          <i class="fa fa-info-circle mr-1"></i> No specific slot posted; doctor is available during hospital hours.
+        </small>
+      </div>
+
+      <div class="row">
+        <!-- Appointment Date -->
+        <div class="col-md-6 form-group mb-3">
+          <label class="font-weight-semibold text-dark">Appointment Date <span class="text-danger">*</span></label>
+          <input type="date" class="form-control" [(ngModel)]="appointment.AppointmentDate" name="appointmentDate" required />
+        </div>
+
+        <!-- Consultation Fee -->
+        <div class="col-md-6 form-group mb-3">
+          <label class="font-weight-semibold text-dark">Consultation Fee</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text bg-light">Rs.</span>
+            </div>
+            <input type="number" class="form-control bg-light" [(ngModel)]="consultationFee" name="consultationFee" readonly />
+          </div>
+        </div>
+      </div>
+
+      <!-- Token Number -->
+      <div class="card bg-light border p-3 rounded-3 mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <label class="font-weight-bold text-dark mb-0">Consultation Token</label>
+            <div class="small text-muted">Generate visit queue number for doctor consultation</div>
+          </div>
+          <button type="button" class="btn btn-primary px-3 rounded-pill shadow-sm" (click)="onGenerateToken()">
+            <i class="fa fa-ticket mr-1"></i> Generate Token
+          </button>
+        </div>
+        <div class="mt-2 text-center" *ngIf="appointment.TokenNumber">
+          <span class="badge badge-success px-4 py-2" style="font-size: 1.1rem; letter-spacing: 1px;">
+            TOKEN #{{ appointment.TokenNumber }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+        <a [routerLink]="['/patients/list']" class="btn btn-outline-secondary px-4 rounded-pill">
+          <i class="fa fa-arrow-left mr-1"></i> Cancel
+        </a>
+        <button type="submit" class="btn btn-success px-5 rounded-pill shadow-sm" [disabled]="!appointment.TokenNumber">
+          <i class="fa fa-check mr-1"></i> Confirm Appointment
+        </button>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3 mb-0 rounded-3">
+        {{errorMessage}}
+      </div>
+    </form>
+  </div>
+</div>

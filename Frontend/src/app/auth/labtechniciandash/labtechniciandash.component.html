@@ -1,0 +1,73 @@
+<div class="container py-4">
+  <!-- Hero / Welcome Header -->
+  <div class="card border-0 shadow-sm rounded-4 p-4 mb-4" style="background: linear-gradient(135deg, #4c1d95 0%, #6d28d9 100%); color: #fff; border-radius: 16px;">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+      <div>
+        <span class="badge badge-light text-primary px-3 py-1 mb-2 font-weight-normal">Diagnostic Laboratory</span>
+        <h2 class="font-weight-bold mb-1 text-white">Laboratory Technician Portal</h2>
+        <p class="text-white-50 mb-0">Conduct pathology investigations, record diagnostic metrics, and update lab test results.</p>
+      </div>
+      <div class="mt-3 mt-md-0">
+        <span class="text-white-50 small"><i class="fa fa-flask mr-1"></i> Lab Analyzer: <span class="badge badge-success px-2 py-1 ml-1 font-weight-normal">Ready</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cards Grid -->
+  <div class="row">
+    <!-- Lab Tests Directory -->
+    <div class="col-md-6 mb-4">
+      <div class="card h-100 border-0 shadow-sm rounded-3 hover-card" style="border-radius: 14px;">
+        <div class="card-body d-flex flex-column">
+          <div class="d-flex align-items-center mb-3">
+            <div class="p-3 rounded-circle mr-3" style="background: #f5f3ff; color: #7c3aed; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+              <i class="fa fa-flask fa-lg"></i>
+            </div>
+            <div>
+              <h5 class="card-title font-weight-bold mb-0 text-dark">Diagnostic Test Catalog</h5>
+              <small class="text-muted">Master Test Registry</small>
+            </div>
+          </div>
+          <p class="card-text text-muted small flex-grow-1">
+            Browse active diagnostic laboratory tests, reference ranges, specimen requirements, and charges.
+          </p>
+          <div class="mt-3 pt-3 border-top d-flex justify-content-between align-items-center">
+            <a [routerLink]="['/lab/list']" class="btn btn-sm px-3 rounded-pill text-white" style="background-color: #7c3aed; border-color: #7c3aed;">
+              View Test Catalog <i class="fa fa-arrow-right ml-1"></i>
+            </a>
+            <a [routerLink]="['/lab/add']" class="btn btn-sm rounded-circle" title="Add Test" style="width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; border: 1px solid #7c3aed; color: #7c3aed;">
+              <i class="fa fa-plus"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Doctor Test Requests / Orders -->
+    <div class="col-md-6 mb-4">
+      <div class="card h-100 border-0 shadow-sm rounded-3 hover-card" style="border-radius: 14px;">
+        <div class="card-body d-flex flex-column">
+          <div class="d-flex align-items-center mb-3">
+            <div class="p-3 rounded-circle mr-3" style="background: #eff6ff; color: #2563eb; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+              <i class="fa fa-vial fa-lg"></i>
+            </div>
+            <div>
+              <h5 class="card-title font-weight-bold mb-0 text-dark">Laboratory Requests</h5>
+              <small class="text-muted">Patient Specimens</small>
+            </div>
+          </div>
+          <p class="card-text text-muted small flex-grow-1">
+            Monitor physician-ordered laboratory tests for admitted and outpatient consultations.
+          </p>
+          <div class="mt-3 pt-3 border-top">
+            <a [routerLink]="['/lab/requests']" class="btn btn-sm btn-primary px-3 rounded-pill text-white w-100">
+              Check Test Orders <i class="fa fa-arrow-right ml-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

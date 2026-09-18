@@ -1,0 +1,76 @@
+<div class="container">
+  <!-- Header Section -->
+  <div class="header">
+    <h3>Patient Management</h3>
+  </div>
+  <br><br>
+
+  <!-- Search and Add Patient Section -->
+  <div class="row mb-4">
+    <div class="col-sm-8">
+      <input 
+        type="search" 
+        class="form-control shadow-sm" 
+        placeholder="Search by Patient Code or Phone Number..." 
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()">
+    </div>
+    <div class="col-sm-4 text-end">
+      <a [routerLink]="['/patients/add']" role="button" class="btn btn-info shadow">
+        <i class="fa fa-user-plus fa-lg"></i> Register Patient
+      </a>
+    </div>
+  </div>
+  <!-- Display Records Only When Filtered List is Not Empty -->
+  <div class="table-responsive ">
+    <table *ngIf="filteredPatients().length > 0" class="table table-bordered table-hover table-striped shadow-sm">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Patient Code</th>
+          <th scope="col">Patient Name</th>
+          <th scope="col">DOB</th>
+          <th scope="col">Gender</th>
+          <th scope="col">Blood Group</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Address</th>
+          <th scope="col">Registration Date</th>
+          <th scope="col">Active</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let patient of filteredPatients() | paginate:{ itemsPerPage: pageSize, currentPage: page }" class="text-center align-middle">
+          <td>{{'PC' + patient.PatientId}}</td>
+          <td>{{patient.PatientName}}</td>
+          <td>{{patient.Dob | date: 'dd-MM-yyyy'}}</td>
+          <td>{{patient.Gender}}</td>
+          <td>{{patient.BloodGroup}}</td>
+          <td>{{patient.PatientPhone}}</td>
+          <td>{{patient.PatientAddress}}</td>
+          <td>{{patient.RegistrationDate | date: 'dd-MM-yyyy'}}</td>
+          <td><input type="checkbox" [checked]="patient.IsActive" disabled></td>
+          <td>
+            <div aria-label="Actions" class="d-flex justify-content-center gap-2">
+              <button class="btn btn-outline-primary btn-sm" (click)="editPatient(patient)" title="Edit">
+                <i class="fa fa-edit"></i>
+              </button>
+              <button class="btn btn-outline-success btn-sm" (click)="bookAppointment(patient)" title="Book Appointment">
+                Book Appointment
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Show No Records Message -->
+  <div *ngIf="filteredPatients().length === 0 && searchPerformed" class="text-center text-muted my-5">
+    <p class="fs-5">No records found. Try a different search term.</p>
+  </div>
+
+  <!-- Footer with Pagination -->
+  <div *ngIf="filteredPatients().length > 0" class="footer mt-4">
+    <pagination-controls class="custom-page shadow-sm" (pageChange)="page = $event"></pagination-controls>
+  </div>
+</div>

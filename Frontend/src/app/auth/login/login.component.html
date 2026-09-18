@@ -1,0 +1,123 @@
+<div class="min-vh-100 d-flex align-items-center py-5" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f8fafc 100%);">
+  <div class="container">
+    <div class="row align-items-center justify-content-center">
+      <!-- Left side Hero Branding -->
+      <div class="col-lg-6 col-md-8 mb-5 mb-lg-0 pr-lg-5">
+        <div class="d-inline-flex align-items-center mb-3">
+          <div>
+            <h2 class="font-weight-bold text-dark mb-0">Clinic Management System</h2>
+            <span class="text-primary font-weight-medium small">Clinical Administration Portal</span>
+          </div>
+        </div>
+
+        <h1 class="display-5 font-weight-bold text-dark mb-3">
+          Integrated Clinic <br><span class="text-primary">Management System</span>
+        </h1>
+        <p class="lead text-muted mb-4" style="font-size: 1.05rem; line-height: 1.6;">
+          Streamlined outpatient appointments, diagnostic records, physician consultation, and dispensary fulfillment — unified in a single clinical platform.
+        </p>
+
+        <div class="row pt-2">
+          <div class="col-6 mb-3">
+            <div class="d-flex align-items-center">
+              <i class="fa fa-check-circle text-success mr-2"></i>
+              <span class="text-secondary small font-weight-medium">Role-Based Access</span>
+            </div>
+          </div>
+          <div class="col-6 mb-3">
+            <div class="d-flex align-items-center">
+              <i class="fa fa-check-circle text-success mr-2"></i>
+              <span class="text-secondary small font-weight-medium">Live Visit Tokens</span>
+            </div>
+          </div>
+          <div class="col-6 mb-3">
+            <div class="d-flex align-items-center">
+              <i class="fa fa-check-circle text-success mr-2"></i>
+              <span class="text-secondary small font-weight-medium">Pharmacy Inventory</span>
+            </div>
+          </div>
+          <div class="col-6 mb-3">
+            <div class="d-flex align-items-center">
+              <i class="fa fa-check-circle text-success mr-2"></i>
+              <span class="text-secondary small font-weight-medium">Instant Billing</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right side login card -->
+      <div class="col-lg-5 col-md-8">
+        <div class="card border-0 shadow-lg rounded-4 p-4 p-md-5" style="border-radius: 20px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);">
+          <div class="text-center mb-4">
+            <div class="avatar-circle mx-auto mb-3" style="width: 52px; height: 52px; font-size: 1.2rem;">
+              <i class="fa fa-lock"></i>
+            </div>
+            <h3 class="font-weight-bold text-dark mb-1">Sign In to Account</h3>
+            <p class="text-muted small">Please enter your authorized system credentials</p>
+          </div>
+
+          <form [formGroup]="loginForm" (ngSubmit)="loginCredentials()">
+            <!-- Username -->
+            <div class="form-group mb-3">
+              <label class="font-weight-semibold text-dark small">Username</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-light border-right-0"><i class="fa fa-user text-muted"></i></span>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Enter username"
+                  formControlName="Username"
+                  class="form-control border-left-0 bg-light"
+                />
+              </div>
+              <div class="invalid-feedback d-block" *ngIf="isSubmitted && formControls['Username'].errors">
+                <small *ngIf="formControls['Username'].errors['required']" class="text-danger">
+                  Username is required.
+                </small>
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group mb-4">
+              <label class="font-weight-semibold text-dark small">Password</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text bg-light border-right-0"><i class="fa fa-key text-muted"></i></span>
+                </div>
+                <input
+                  [type]="showPassword ? 'text' : 'password'"
+                  placeholder="Enter password"
+                  formControlName="Password"
+                  class="form-control border-left-0 border-right-0 bg-light"
+                />
+                <div class="input-group-append">
+                  <button type="button" class="btn btn-light border-left-0 bg-light" (click)="togglePasswordVisibility()" style="border-color: #ced4da;" title="Toggle password visibility">
+                    <i class="fa" [ngClass]="showPassword ? 'fa-eye-slash text-primary' : 'fa-eye text-muted'"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="invalid-feedback d-block" *ngIf="isSubmitted && formControls['Password'].errors">
+                <small *ngIf="formControls['Password'].errors['required']" class="text-danger">
+                  Password is required.
+                </small>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="mb-3">
+              <button type="submit" class="btn btn-primary btn-block py-2 rounded-pill font-weight-semibold shadow-sm" style="letter-spacing: 0.5px;">
+                SIGN IN <i class="fa fa-arrow-right ml-1"></i>
+              </button>
+            </div>
+
+            <!-- Error Alert -->
+            <div class="alert alert-danger text-center py-2 px-3 mb-0 rounded-3 small" *ngIf="error">
+              <i class="fa fa-exclamation-circle mr-1"></i> {{ error }}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

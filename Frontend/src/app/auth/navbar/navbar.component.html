@@ -1,0 +1,128 @@
+<nav *ngIf="isLoggedIn()" class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm sticky-top py-2 px-3">
+  <div class="container-fluid d-flex align-items-center justify-content-between">
+    <!-- Brand -->
+    <a class="navbar-brand font-weight-bold text-primary mr-4" [routerLink]="getDashboardRoute()" style="font-size: 1.25rem; letter-spacing: -0.3px;">
+      Clinic Management System
+    </a>
+
+    <!-- Mobile toggle button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navigation links -->
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav mr-auto align-items-center">
+
+        <!-- Admin Links (Role 1): Clean nav, modules accessed from Dashboard Hub -->
+        <ng-container *ngIf="getRoleId() === 1">
+          <li class="nav-item">
+            <a class="nav-link px-3" routerLink="/auth/admin" routerLinkActive="active font-weight-bold text-primary">
+              <i class="fa fa-dashboard mr-1"></i> Dashboard
+            </a>
+          </li>
+        </ng-container>
+
+        <!-- Doctor Links (Role 2) -->
+        <ng-container *ngIf="getRoleId() === 2">
+          <li class="nav-item">
+            <a class="nav-link px-3" routerLink="/auth/doctor" routerLinkActive="active font-weight-bold text-primary">
+              <i class="fa fa-dashboard mr-1"></i> Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" routerLink="/doctor/appointment/list" routerLinkActive="active font-weight-bold text-primary">
+              <i class="fa fa-calendar-check-o mr-1"></i> Appointments
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" routerLink="/doctor/startdiagnosys/list" routerLinkActive="active font-weight-bold text-primary">
+              <i class="fa fa-stethoscope mr-1"></i> Diagnosis History
+            </a>
+          </li>
+        </ng-container>
+
+        <!-- Receptionist Links (Role 3) -->
+        <ng-container *ngIf="getRoleId() === 3">
+          <li class="nav-item">
+            <a class="nav-link px-3" routerLink="/patients/list" routerLinkActive="active font-weight-bold text-primary">
+              <i class="fa fa-user-circle mr-1"></i> Patients
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" routerLink="/patients/bookat" routerLinkActive="active font-weight-bold text-primary">
+              <i class="fa fa-calendar-plus-o mr-1"></i> Book Appointment
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" routerLink="/patients/listappointment" routerLinkActive="active font-weight-bold text-primary">
+              <i class="fa fa-list-alt mr-1"></i> All Appointments
+            </a>
+          </li>
+        </ng-container>
+
+        <!-- Pharmacist Links (Role 4) -->
+        <ng-container *ngIf="getRoleId() === 4">
+          <li class="nav-item">
+            <a class="nav-link px-3" routerLink="/auth/pharmacists" routerLinkActive="active font-weight-bold text-primary">
+              <i class="fa fa-dashboard mr-1"></i> Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" routerLink="/medicine-prescriptions/Medicineprescriptionlist" routerLinkActive="active font-weight-bold text-primary">
+              <i class="fa fa-file-text-o mr-1"></i> Prescriptions
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" routerLink="/medicine-prescriptions/billlist" routerLinkActive="active font-weight-bold text-primary">
+              <i class="fa fa-calculator mr-1"></i> Invoices
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" routerLink="/medicine-managements/list" routerLinkActive="active font-weight-bold text-primary">
+              <i class="fa fa-medkit mr-1"></i> Medicine Stock
+            </a>
+          </li>
+        </ng-container>
+
+        <!-- Lab Technician Links (Role 5) -->
+        <ng-container *ngIf="getRoleId() === 5">
+          <li class="nav-item">
+            <a class="nav-link px-3" routerLink="/auth/labtechnician" routerLinkActive="active font-weight-bold text-primary">
+              <i class="fa fa-dashboard mr-1"></i> Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" routerLink="/lab/list" routerLinkActive="active font-weight-bold text-primary">
+              <i class="fa fa-flask mr-1"></i> Test Catalog
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" routerLink="/lab/requests" routerLinkActive="active font-weight-bold text-primary">
+              <i class="fa fa-vial mr-1"></i> Lab Requests
+            </a>
+          </li>
+        </ng-container>
+
+      </ul>
+
+      <!-- User Profile & Sign Out pushed to far right -->
+      <div class="d-flex align-items-center ml-auto ms-auto">
+        <div class="user-pill mr-3 d-flex align-items-center">
+          <div class="avatar-circle mr-2">
+            <i class="fa fa-user"></i>
+          </div>
+          <div class="d-flex flex-column text-left mr-2">
+            <span class="font-weight-bold text-dark text-capitalize" style="font-size: 0.88rem; line-height: 1.1;">{{ getUserName() }}</span>
+            <span class="text-muted" style="font-size: 0.72rem;">{{ getRoleName() }}</span>
+          </div>
+        </div>
+
+        <button (click)="onLogout()" class="btn btn-sm btn-outline-danger d-flex align-items-center font-weight-medium px-3 py-1" style="border-radius: 20px;" title="Sign out of the system">
+          <i class="fa fa-sign-out mr-1"></i> Sign Out
+        </button>
+      </div>
+
+    </div>
+  </div>
+</nav>

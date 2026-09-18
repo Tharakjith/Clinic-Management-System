@@ -1,0 +1,78 @@
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h3 class="font-weight-bold text-dark mb-1">Clinical Diagnosis Records</h3>
+            <p class="text-muted small mb-0">Doctor diagnosis history and treatment notes</p>
+        </div>
+        <div>
+            <a [routerLink]="['/doctor/startdiagnosys/add']" role="button" class="btn btn-primary px-3 rounded-pill shadow-sm">
+                <i class="fa fa-plus-circle mr-1"></i> New Diagnosis
+            </a>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-3 p-3 mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-light border-right-0"><i class="fa fa-search text-muted"></i></span>
+                    </div>
+                    <input type="search" class="form-control border-left-0 bg-light"
+                    placeholder="Search by diagnosis, symptoms, notes..."
+                    [(ngModel)]="searchTerm">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+        <table class="table table-hover mb-0">
+            <thead class="bg-light">
+              <tr>
+                <th scope="col">Code</th>
+                <th scope="col">Diagnosis</th>
+                <th scope="col">Symptoms</th>
+                <th scope="col">Next Visit</th>
+                <th scope="col">Doctor's Note</th>
+                <th scope="col">Diagnosis Date</th>
+                <th scope="col">Reference</th>
+                <th scope="col">Appointment ID</th>
+                <th scope="col" class="text-center">Status</th>
+                <th scope="col" class="text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let startDiagnosys of this.filteredDiagnosys()
+              |paginate:{itemsPerPage:pageSize ,currentPage :page}">
+                
+                <td class="font-weight-bold text-primary">#{{startDiagnosys.HistoryId}}</td>
+                <td class="font-weight-medium">{{startDiagnosys.Diagnosis}}</td>
+                <td><span class="text-muted small">{{startDiagnosys.Symptoms}}</span></td>
+                <td>{{startDiagnosys.NextVisiting | date:"dd-MM-yyyy"}}</td>
+                <td>{{startDiagnosys.DoctorNote}}</td>
+                <td>{{startDiagnosys.DiagnosysDate | date:"dd-MM-yyyy"}}</td>
+                <td><span class="badge badge-light border">{{startDiagnosys.Reference}}</span></td>
+                <td><span class="badge badge-info">{{startDiagnosys.AppointmentId}}</span></td>
+                <td class="text-center">
+                    <span class="badge badge-pill" [ngClass]="startDiagnosys.IsActive ? 'badge-success' : 'badge-secondary'">
+                        {{startDiagnosys.IsActive ? 'Active' : 'Inactive'}}
+                    </span>
+                </td>
+                <td class="text-right">
+                    <button class="btn btn-sm btn-outline-info mr-1" (click)="editDiagnosys(startDiagnosys)" title="Edit Diagnosis">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" (click)="deleteDiagnosys(startDiagnosys)" title="Delete Diagnosis">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+              </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-3 d-flex justify-content-center">
+        <pagination-controls class="custom-page" (pageChange)="page = $event"></pagination-controls>
+    </div>
+</div>

@@ -1,0 +1,128 @@
+<div class="container py-4" style="max-width: 720px;">
+  <div class="card border-0 shadow-sm rounded-4 p-4">
+    <div class="d-flex align-items-center mb-3">
+      <div class="p-3 rounded-circle mr-3" style="background: #eff6ff; color: #2563eb; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+        <i class="fa fa-stethoscope fa-lg"></i>
+      </div>
+      <div>
+        <h3 class="font-weight-bold text-dark mb-0">Record Clinical Diagnosis</h3>
+        <small class="text-muted">Enter patient assessment, clinical observations, and follow-up plan</small>
+      </div>
+    </div>
+    <hr class="my-3">
+
+    <!-- Template Driven Form -->
+    <form name="formDiagnosysData" #empform="ngForm" autocomplete="off" (ngSubmit)="onSubmit(empform)">
+
+      <!-- Hidden HistoryId -->
+      <input type="hidden" name="HistoryId" [(ngModel)]="doctorService.formDiagnosysData.HistoryId">
+
+      <!-- Diagnosis -->
+      <div class="form-group mb-3">
+        <label class="font-weight-semibold text-dark">Diagnosis / Condition <span class="text-danger">*</span></label>
+        <input type="text" name="Diagnosis"
+          #Diagnosis="ngModel"
+          [(ngModel)]="doctorService.formDiagnosysData.Diagnosis"
+          class="form-control"
+          placeholder="e.g. Acute Bronchitis, Hypertension" minlength="3" maxlength="100"
+          required
+          [ngClass]="{'is-invalid': Diagnosis.touched && Diagnosis.invalid}"/>
+        <div class="invalid-feedback" *ngIf="Diagnosis.touched && Diagnosis.invalid">
+          Please enter a valid clinical diagnosis (minimum 3 characters).
+        </div>
+      </div>
+
+      <!-- Symptoms -->
+      <div class="form-group mb-3">
+        <label class="font-weight-semibold text-dark">Symptoms Observed <span class="text-danger">*</span></label>
+        <input type="text" name="Symptoms"
+          #Symptoms="ngModel"
+          [(ngModel)]="doctorService.formDiagnosysData.Symptoms"
+          class="form-control"
+          placeholder="e.g. Persistent dry cough, mild fever, chest congestion" minlength="3" maxlength="200"
+          required
+          [ngClass]="{'is-invalid': Symptoms.touched && Symptoms.invalid}"/>
+        <div class="invalid-feedback" *ngIf="Symptoms.touched && Symptoms.invalid">
+          Please record the presenting symptoms.
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Diagnosis Date -->
+        <div class="col-md-6 form-group mb-3">
+          <label class="font-weight-semibold text-dark">Diagnosis Date <span class="text-danger">*</span></label>
+          <input type="date" name="DiagnosysDate"
+            #DiagnosysDate="ngModel"
+            [(ngModel)]="doctorService.formDiagnosysData.DiagnosysDate"
+            class="form-control"
+            required
+            [ngClass]="{'is-invalid': DiagnosysDate.touched && DiagnosysDate.invalid}"/>
+          <div class="invalid-feedback" *ngIf="DiagnosysDate.touched && DiagnosysDate.invalid">
+            Diagnosis date is required.
+          </div>
+        </div>
+
+        <!-- Next Visiting Date -->
+        <div class="col-md-6 form-group mb-3">
+          <label class="font-weight-semibold text-dark">Next Follow-up Date <span class="text-danger">*</span></label>
+          <input type="date" name="NextVisiting"
+            #NextVisiting="ngModel"
+            [(ngModel)]="doctorService.formDiagnosysData.NextVisiting"
+            class="form-control"
+            required
+            [ngClass]="{'is-invalid': NextVisiting.touched && NextVisiting.invalid}"/>
+          <div class="invalid-feedback" *ngIf="NextVisiting.touched && NextVisiting.invalid">
+            Follow-up visit date is required.
+          </div>
+        </div>
+      </div>
+
+      <!-- AppointmentId -->
+      <div class="form-group mb-3">
+        <label class="font-weight-semibold text-dark">Appointment ID <span class="text-danger">*</span></label>
+        <input type="number" name="AppointmentId"
+          #AppointmentId="ngModel"
+          [(ngModel)]="doctorService.formDiagnosysData.AppointmentId"
+          class="form-control"
+          placeholder="Enter Appointment Number (e.g. 1)"
+          required
+          [ngClass]="{'is-invalid': AppointmentId.touched && AppointmentId.invalid}"/>
+        <div class="invalid-feedback" *ngIf="AppointmentId.touched && AppointmentId.invalid">
+          Valid Appointment ID is required.
+        </div>
+      </div>
+
+      <!-- Doctor Note -->
+      <div class="form-group mb-4">
+        <label class="font-weight-semibold text-dark">Doctor's Clinical Notes <span class="text-danger">*</span></label>
+        <textarea name="DoctorNote"
+          #DoctorNote="ngModel"
+          [(ngModel)]="doctorService.formDiagnosysData.DoctorNote"
+          class="form-control"
+          rows="3"
+          placeholder="Enter advice, lifestyle precautions, or instructions..." minlength="3" maxlength="250"
+          required
+          [ngClass]="{'is-invalid': DoctorNote.touched && DoctorNote.invalid}"></textarea>
+        <div class="invalid-feedback" *ngIf="DoctorNote.touched && DoctorNote.invalid">
+          Doctor's notes are required.
+        </div>
+      </div>
+
+      <!-- Submit & Cancel -->
+      <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+        <a [routerLink]="['/doctor/startdiagnosys/list']" class="btn btn-outline-secondary px-4 rounded-pill">
+          <i class="fa fa-arrow-left mr-1"></i> Cancel
+        </a>
+        <button type="submit" class="btn btn-primary px-5 rounded-pill shadow-sm" [disabled]="!(empform.valid)">
+          <i class="fa fa-check mr-1"></i> Save Diagnosis
+        </button>
+      </div>
+
+      <!-- Error Message Display -->
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3 mb-0 rounded-3">
+        {{errorMessage}}
+      </div>
+    </form>
+  </div>
+</div>
+

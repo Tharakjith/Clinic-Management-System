@@ -1,0 +1,178 @@
+<div class="container-fluid py-4 px-md-5">
+  <!-- Header -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+    <div>
+      <div class="d-flex align-items-center mb-1">
+        <a [routerLink]="['/auth/labtechnician']" class="btn btn-sm btn-outline-secondary rounded-circle mr-3" title="Back to Lab Dashboard" style="width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;">
+          <i class="fa fa-arrow-left"></i>
+        </a>
+        <h3 class="mb-0 text-primary font-weight-bold">
+          <i class="fa fa-vial mr-2"></i>Laboratory Test Requests
+        </h3>
+      </div>
+      <p class="text-muted mb-0 ml-md-5">Track clinical pathology test orders prescribed by attending physicians.</p>
+    </div>
+    <div class="mt-3 mt-md-0">
+      <a [routerLink]="['/lab/list']" class="btn btn-outline-primary rounded-pill px-4 mr-2">
+        <i class="fa fa-flask mr-1"></i> Test Catalog
+      </a>
+      <button class="btn btn-primary rounded-pill px-4 shadow-sm" (click)="loadRequests()">
+        <i class="fa fa-refresh mr-1"></i> Refresh Queue
+      </button>
+    </div>
+  </div>
+
+  <!-- Stats Strip -->
+  <div class="row mb-4">
+    <div class="col-md-4 mb-3">
+      <div class="card border-0 shadow-sm rounded-4 p-3 bg-light">
+        <div class="d-flex align-items-center">
+          <div class="rounded-circle p-3 mr-3 bg-white text-primary shadow-sm" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+            <i class="fa fa-list-ol fa-lg"></i>
+          </div>
+          <div>
+            <div class="text-muted small">Total Test Orders</div>
+            <h4 class="font-weight-bold mb-0 text-dark">{{ requests.length }}</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card border-0 shadow-sm rounded-4 p-3" style="background: #eff6ff;">
+        <div class="d-flex align-items-center">
+          <div class="rounded-circle p-3 mr-3 bg-white text-primary shadow-sm" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+            <i class="fa fa-clock-o fa-lg"></i>
+          </div>
+          <div>
+            <div class="text-muted small">In-Progress Specimen</div>
+            <h4 class="font-weight-bold mb-0 text-primary">
+              {{ processingCount }}
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card border-0 shadow-sm rounded-4 p-3" style="background: #f0fdf4;">
+        <div class="d-flex align-items-center">
+          <div class="rounded-circle p-3 mr-3 bg-white text-success shadow-sm" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+            <i class="fa fa-check-circle fa-lg"></i>
+          </div>
+          <div>
+            <div class="text-muted small">Completed Pathology</div>
+            <h4 class="font-weight-bold mb-0 text-success">
+              {{ completedCount }}
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search and Filter Bar -->
+  <div class="card border-0 shadow-sm rounded-4 mb-4">
+    <div class="card-body p-3">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text bg-white border-right-0"><i class="fa fa-search text-muted"></i></span>
+            </div>
+            <input
+              type="search"
+              class="form-control border-left-0"
+              placeholder="Search by Order ID, Appointment #, Test Name, Sample..."
+              [(ngModel)]="searchTerm"
+            />
+          </div>
+        </div>
+        <div class="col-md-4 text-md-right text-muted mt-2 mt-md-0">
+          Showing <strong>{{ filteredRequests().length }}</strong> orders
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Requests Table -->
+  <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="thead-light">
+          <tr>
+            <th class="py-3 px-4">Order ID</th>
+            <th class="py-3">Appointment Ref</th>
+            <th class="py-3">Requested Test</th>
+            <th class="py-3">Specimen / Sample</th>
+            <th class="py-3">Test Fee</th>
+            <th class="py-3 text-center">Status</th>
+            <th class="py-3 text-center" style="width: 220px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let req of filteredRequests() | paginate: { itemsPerPage: pageSize, currentPage: page }">
+            <td class="px-4 font-weight-bold text-secondary">
+              #REQ-{{ req.TpId }}
+            </td>
+            <td>
+              <span class="badge badge-light border px-2 py-1 font-weight-normal">
+                <i class="fa fa-calendar-check-o mr-1 text-primary"></i> Apt #{{ req.AppointmentId }}
+              </span>
+            </td>
+            <td>
+              <div class="font-weight-bold text-dark">{{ getTestName(req.LabTestId) }}</div>
+              <small class="text-muted" *ngIf="req.LabTestId">Test ID: #{{ req.LabTestId }}</small>
+            </td>
+            <td>
+              <span class="badge badge-info px-2 py-1 font-weight-normal text-dark" style="background: #e0f2fe;">
+                <i class="fa fa-tint mr-1 text-danger"></i> {{ req.SampleItem }}
+              </span>
+            </td>
+            <td>
+              <span class="font-weight-bold text-dark">₹{{ getTestPrice(req.LabTestId) }}</span>
+            </td>
+            <td class="text-center">
+              <span class="badge px-3 py-2 rounded-pill"
+                [ngClass]="{
+                  'badge-warning': req.Status === 'Pending Collection',
+                  'badge-primary': req.Status === 'Processing',
+                  'badge-success': req.Status === 'Completed'
+                }">
+                {{ req.Status }}
+              </span>
+            </td>
+            <td class="text-center">
+              <div class="btn-group btn-group-sm">
+                <button
+                  *ngIf="req.Status !== 'Processing'"
+                  class="btn btn-outline-primary"
+                  (click)="updateStatus(req, 'Processing')"
+                  title="Mark Processing">
+                  <i class="fa fa-cogs mr-1"></i> Process
+                </button>
+                <button
+                  *ngIf="req.Status !== 'Completed'"
+                  class="btn btn-outline-success"
+                  (click)="updateStatus(req, 'Completed')"
+                  title="Complete Test">
+                  <i class="fa fa-check mr-1"></i> Complete
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="filteredRequests().length === 0">
+            <td colspan="7" class="text-center py-5 text-muted">
+              <i class="fa fa-inbox fa-3x mb-3 d-block text-secondary"></i>
+              <p class="mb-1 font-weight-bold">No laboratory test orders found.</p>
+              <small>All patient tests are up-to-date.</small>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="card-footer bg-white border-0 py-3 d-flex justify-content-center" *ngIf="filteredRequests().length > pageSize">
+      <pagination-controls (pageChange)="page = $event"></pagination-controls>
+    </div>
+  </div>
+</div>

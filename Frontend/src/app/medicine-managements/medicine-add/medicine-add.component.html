@@ -1,0 +1,151 @@
+<div class="container">
+    <h3>New Medicine Info</h3>
+
+    <hr>
+
+    <!-- Template driven form -->
+    <form name="formMedicine" #medForm="ngForm" autocomplete="off" (ngSubmit)="onSubmit(medForm)">
+
+        <!-- MedicineId -->
+
+        <div class="form-group">
+            <input type="hidden" readonly name="MedicineId"
+                [(ngModel)]="medicineDetailsService.formMedicineDetailsData.MedicineId" />
+
+        </div>
+
+        <!--Medicine Name-->
+        <div class="form-group">
+            <label>Medicine Name:</label>
+            <input type="text" name="MedicineName" #MedicineName="ngModel" class="form-control validation-error"
+                [(ngModel)]="medicineDetailsService.formMedicineDetailsData.MedicineName" class="form-control"
+                placeholder="Enter Medicine Name" minlength="3" maxlength="10" required
+                [ngClass]="{'is-invalid': MedicineName.touched && MedicineName.invalid}" />
+            <!--touched : keyboard touch-cursor point-while we type-->
+
+            <div class="validation-error" *ngIf="MedicineName.touched && MedicineName.invalid">
+                <div *ngIf="MedicineName.errors?.['required']">
+                    Medicine Name is invalid or required!
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Manufacturing Date -->
+
+        <div class="form-group">
+            <label>Manufacturing Date:</label>
+            <input type="date" name="ManufacturingDate" #ManufacturingDate="ngModel"
+                class="form-control validation-error"
+                [(ngModel)]="medicineDetailsService.formMedicineDetailsData.ManufacturingDate" class="form-control"
+                placeholder="Enter the Manufacturing Date" required
+                [ngClass]="{'is-invalid': ManufacturingDate.touched && ManufacturingDate.invalid}" />
+            <!--touched : keyboard touch-cursor point-while we type-->
+
+            <div class="validation-error" *ngIf="ManufacturingDate.touched && ManufacturingDate.invalid">
+                <div *ngIf="ManufacturingDate.errors?.['required']">
+                    Manufacturing Date is invalid or required!
+                </div>
+            </div>
+        </div>
+
+        <!-- ExpiryDate -->
+
+        <div class="form-group">
+            <label>Expiry Date:</label>
+            <input type="date" name="ExpiryDate" #ExpiryDate="ngModel" class="form-control validation-error"
+                [(ngModel)]="medicineDetailsService.formMedicineDetailsData.ExpiryDate" class="form-control"
+                placeholder="Enter the Expiry Date" required
+                [ngClass]="{'is-invalid': ExpiryDate.touched && ExpiryDate.invalid}" />
+            <!--touched : keyboard touch-cursor point-while we type-->
+
+            <div class="validation-error" *ngIf="ExpiryDate.touched && ExpiryDate.invalid">
+                <div *ngIf="ExpiryDate.errors?.['required']">
+                    ExpiryDate is invalid or required!
+                </div>
+            </div>
+        </div>
+
+        <!-- Category -->
+
+
+        <!-- <div class="form-group">
+    <label>Category:</label>
+    <input type="text" name="Category" 
+    #Category="ngModel" class="form-control validation-error"
+    [(ngModel)]="medicineDetailsService.formMedicineDetailsData.Category"
+    class= "form-control"
+    placeholder="Enter the Category" minlength="2" maxlength="25" 
+    required 
+    [ngClass]="{'is-invalid': Category.touched && Category.invalid}"/>   -->
+        <!--touched : keyboard touch-cursor point-while we type-->
+
+        <!-- <div class="validation-error" *ngIf="Category.touched && Category.invalid">
+        <div *ngIf="Category.errors?.['required']">
+            Category is invalid or required!
+        </div>
+    </div>
+</div> -->
+
+
+        <!-- Cost -->
+
+
+        <div class="form-group">
+            <label>Cost:</label>
+            <input type="text" name="Cost" #Cost="ngModel" class="form-control validation-error"
+                [(ngModel)]="medicineDetailsService.formMedicineDetailsData.Cost" class="form-control"
+                placeholder="Enter the Cost" minlength="2" maxlength="10" required
+                [ngClass]="{'is-invalid': Cost.touched && Cost.invalid}" />
+            <!--touched : keyboard touch-cursor point-while we type-->
+
+            <div class="validation-error" *ngIf="Cost.touched && Cost.invalid">
+                <div *ngIf="Cost.errors?.['required']">
+                    Cost is invalid or required!
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Dropdown List -->
+        <div class="form-group">
+            <label>CategoryName:</label>
+            <select name="CategoryId" id="CategoryId" #CategoryId="ngModel"
+                [(ngModel)]="medicineDetailsService.formMedicineDetailsData.CategoryId" class="form-control" required>
+
+
+                <option value="0" selected disabled> ---Select Category Name---</option>
+                <option *ngFor="let ctg of medicineDetailsService.category" [value]="ctg.CategoryId">
+                    {{ctg.CategoryName}}
+                </option>
+            </select>
+        </div>
+
+
+
+        <!--Is Active-->
+        <div class="form-group">
+            <div class="form-check">
+                <input type="checkbox" name="IsActive" #IsActive="ngModel" class="form-check-input"
+                    [(ngModel)]="medicineDetailsService.formMedicineDetailsData.IsActive" />
+                <label class="form-check-label">IsActive</label>
+            </div>
+        </div>
+
+        <!-- submit -->
+        <div class="form-group">
+
+            <button type="submit" class="btn btn-lg btn-primary form-control "
+                [disabled]="!(medForm.valid  &&  medForm.dirty)">
+                INSERT</button>
+
+        </div>
+        <!-- 
+Error After submission -->
+
+        <div *ngIf="errorMessage" class="error-message validation-error">
+            {{errorMessage}}
+
+        </div>
+
+    </form>
+</div>

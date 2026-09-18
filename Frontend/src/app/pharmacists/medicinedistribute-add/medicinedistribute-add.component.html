@@ -1,0 +1,116 @@
+<div class="container mt-5">
+  <h2 class="text-center">Distribute Medicine</h2>
+  <form #mdaForm="ngForm" (ngSubmit)="onSubmit(mdaForm)">
+    <div class="form-group">
+      <label for="prescriptionId">Prescription code </label>
+      <input
+        type="text"
+        class="form-control"
+        id="prescriptionId"
+        name="PrescriptionId"
+        [(ngModel)]="medicinedistributeService.formMedicinedistributeData.PrescriptionId"
+        readonly
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="patientName">Patient Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="patientName"
+        name="PatientName"
+        [(ngModel)]="medicinedistributeService.formMedicinedistributeData.PatientName"
+        readonly
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="medicineName">Medicine Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="medicineName"
+        name="MedicineName"
+        [(ngModel)]="medicinedistributeService.formMedicinedistributeData.MedicineName"
+        readonly/>
+    </div>
+
+    <div class="form-group">
+      <label for="dosage">Dosage</label>
+      <input
+        type="text"
+        class="form-control"
+        id="dosage"
+        name="Dosage"
+        [(ngModel)]="medicinedistributeService.formMedicinedistributeData.Dosage"
+        readonly
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="frequency">Frequency</label>
+      <input
+        type="text"
+        class="form-control"
+        id="frequency"
+        name="Frequency"
+        [(ngModel)]="medicinedistributeService.formMedicinedistributeData.Frequency"
+        readonly
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="numberOfDays">Number of Days</label>
+      <input
+        type="text"
+        class="form-control"
+        id="numberOfDays"
+        name="NumberofDays"
+        [(ngModel)]="medicinedistributeService.formMedicinedistributeData.NumberofDays"
+        readonly
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="stockInHand">Stock In Hand</label>
+      <input
+        type="text"
+        class="form-control"
+        id="stockInHand"
+        name="StockInHand"
+        [(ngModel)]="medicinedistributeService.formMedicinedistributeData.StockInHand"
+        readonly
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="distributionDate">Distribution Date</label>
+      <input
+        type="date"
+        class="form-control"
+        id="distributionDate"
+        name="DistributionDate"
+        [value]="distributionDate"
+        readonly
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="quantityDistributed">Quantity Distributed</label>
+      <input
+        type="number"
+        class="form-control"
+        id="quantityDistributed"
+        name="QuantityDistributed"
+        [(ngModel)]="medicinedistributeService.formMedicinedistributeData.QuantityDistributed"
+        required
+      />
+    </div>
+
+    <a [routerLink]="['/medicine-prescriptions/Medicinebilllist']" role="button" class="btn btn-outline-primary">
+      <i class="fa fa-user-plus fa-lg"></i>&nbsp;Generate Bill
+    </a>
+  </form>
+</div>
+

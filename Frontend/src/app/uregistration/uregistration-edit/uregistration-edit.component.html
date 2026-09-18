@@ -1,0 +1,90 @@
+<div class="container">
+    <h3>Edit User Information</h3>
+    <hr>
+    <form name="frmStaff" #stForm="ngForm" autocomplete="off" (ngSubmit)="onSubmit(stForm)">
+        <!-- Staff Id -->
+        <div class="form-group">
+            <input type="hidden" readonly name="RegistrationId" class="form-control"
+                [(ngModel)]="registrationService.formStaffData.RegistrationId">
+        </div>
+
+        <!-- Staff Name -->
+        <div class="form-group">
+            <label>User Name: </label>
+            <input type="text" name="Username" #Username="ngModel" 
+                [(ngModel)]="registrationService.formStaffData.Username" 
+                class="form-control" placeholder="Enter Username" minlength="3" maxlength="25" required 
+                [ngClass]="{'is-invalid': Username.touched && Username.invalid}">
+        </div>
+        <div class="Validation-error" *ngIf="Username.touched && Username.invalid">
+            <div *ngIf="Username.errors?.['required']">Username is required!</div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group mb-3">
+            <label>Password: </label>
+            <div class="input-group">
+                <input [type]="showPassword ? 'text' : 'password'" name="Password" #Password="ngModel" 
+                    [(ngModel)]="registrationService.formStaffData.Password" 
+                    class="form-control" placeholder="Enter Password" minlength="3" maxlength="50" required 
+                    [ngClass]="{'is-invalid': Password.touched && Password.invalid}">
+                <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()" title="Toggle password visibility">
+                    <i class="fa" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                </button>
+            </div>
+            <div class="Validation-error" *ngIf="Password.touched && Password.invalid">
+                <div *ngIf="Password.errors?.['required']">Password is required!</div>
+            </div>
+        </div>
+
+        <!-- Date of Joining -->
+        <div class="form-group mb-3">
+            <label>Registered Date: </label>
+            <input type="date" name="RegisteredDate" #RegisteredDate="ngModel" 
+                [(ngModel)]="registrationService.formStaffData.RegisteredDate" 
+                class="form-control" required 
+                [ngClass]="{'is-invalid': RegisteredDate.touched && RegisteredDate.invalid}">
+            <div class="Validation-error" *ngIf="RegisteredDate.touched && RegisteredDate.invalid">
+                <div *ngIf="RegisteredDate.errors?.['required']">RegisteredDate is required!</div>
+            </div>
+        </div>
+
+        <!-- Role Id -->
+        <div class="form-group mb-3">
+            <label>Role:</label>
+            <select name="RoleId" id="RoleId"
+                #RoleId="ngModel"
+                [(ngModel)]="registrationService.formStaffData.RoleId"
+                class="form-control"
+                required>
+                <option value="0" selected disabled>----Select Role----</option>
+                <option *ngFor="let dept of registrationService.role"
+                    [value]="dept.RoleId">
+                    {{dept.RoleName}}
+                </option>
+            </select>
+        </div>
+
+
+        <!-- Is Active -->
+        <div class="form-group">
+            <div class="form-check">
+                <input type="checkbox" name="RisActive" #RisActive="ngModel" 
+                    [(ngModel)]="registrationService.formStaffData.RisActive" 
+                    class="form-check-input">
+                <label class="form-check-label">Is Active</label>
+            </div>
+        </div>
+
+       <!-- Submit Button -->
+       <div class="form-group">
+        <button type="submit" class="btn btn-lg btn-success form-control" 
+            [disabled]="!(stForm.valid && stForm.dirty)">
+            UPDATE
+        </button>
+    </div>
+    <div *ngIf="errorMessage" class="error-message validation-error">
+        {{errorMessage}}
+    </div>
+</form>
+</div>

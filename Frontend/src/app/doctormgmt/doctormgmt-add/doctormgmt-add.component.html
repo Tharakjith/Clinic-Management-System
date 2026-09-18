@@ -1,0 +1,90 @@
+<div class="container py-4" style="max-width: 680px;">
+  <div class="card border-0 shadow-sm rounded-4 p-4">
+    <div class="d-flex align-items-center mb-3">
+      <div class="p-3 rounded-circle mr-3" style="background: #eff6ff; color: #2563eb; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+        <i class="fa fa-user-md fa-lg"></i>
+      </div>
+      <div>
+        <h3 class="font-weight-bold text-dark mb-0">Register New Doctor</h3>
+        <small class="text-muted">Add a qualified doctor to the clinic clinical team</small>
+      </div>
+    </div>
+    <hr class="my-3">
+
+    <form name="frmdoctor" #stForm="ngForm" autocomplete="off" (ngSubmit)="onSubmit(stForm)">
+      <!-- Hidden Doctor Id -->
+      <input type="hidden" name="DoctorId" [(ngModel)]="doctormanagementService.formStaffData.DoctorId">
+
+      <!-- Doctor Selection (Only Doctors) -->
+      <div class="form-group mb-3">
+        <label class="font-weight-semibold text-dark">Select Doctor <span class="text-danger">*</span></label>
+        <select name="StaffId" id="StaffId"
+          #StaffId="ngModel"
+          [(ngModel)]="doctormanagementService.formStaffData.StaffId"
+          (change)="onDoctorSelected($event)"
+          class="form-control"
+          required>
+          <option value="0" disabled selected>---- Select Doctor Name ----</option>
+          <option *ngFor="let doc of doctorStaffList" [value]="doc.StaffId">
+            Dr. {{doc.StaffName}} (Staff #{{doc.StaffId}})
+          </option>
+        </select>
+        <small class="text-muted d-block mt-1">
+          <i class="fa fa-info-circle mr-1"></i>Only medical doctors from the staff registry are displayed here.
+        </small>
+      </div>
+
+      <!-- Specialization -->
+      <div class="form-group mb-3">
+        <label class="font-weight-semibold text-dark">Specialization <span class="text-danger">*</span></label>
+        <select name="SpecializationId" id="SpecializationId"
+          #SpecializationId="ngModel"
+          [(ngModel)]="doctormanagementService.formStaffData.SpecializationId"
+          class="form-control"
+          required>
+          <option value="0" disabled selected>---- Select Specialization ----</option>
+          <option *ngFor="let spec of doctormanagementService.specilization" [value]="spec.SpecializationId">
+            {{spec.SpecializationName}}
+          </option>
+        </select>
+      </div>
+
+      <!-- Consultation Fee -->
+      <div class="form-group mb-3">
+        <label class="font-weight-semibold text-dark">Consultation Fee (INR) <span class="text-danger">*</span></label>
+        <input type="number" name="ConsultationFee" #ConsultationFee="ngModel" 
+          [(ngModel)]="doctormanagementService.formStaffData.ConsultationFee" 
+          class="form-control" placeholder="e.g. 500" min="0" required 
+          [ngClass]="{'is-invalid': ConsultationFee.touched && ConsultationFee.invalid}">
+        <div class="invalid-feedback" *ngIf="ConsultationFee.touched && ConsultationFee.invalid">
+          Consultation Fee is required!
+        </div>
+      </div>
+
+      <!-- Is Active -->
+      <div class="form-group mb-4">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" name="DoctorIsActive" id="DoctorIsActive" 
+            [(ngModel)]="doctormanagementService.formStaffData.DoctorIsActive" 
+            class="custom-control-input">
+          <label class="custom-control-label font-weight-medium" for="DoctorIsActive">Is Active</label>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+        <a [routerLink]="['/doctormgmt/list']" class="btn btn-outline-secondary px-4 rounded-pill">
+          <i class="fa fa-arrow-left mr-1"></i> Cancel
+        </a>
+        <button type="submit" class="btn btn-primary px-5 rounded-pill shadow-sm" 
+          [disabled]="!(stForm.valid && doctormanagementService.formStaffData.StaffId && doctormanagementService.formStaffData.SpecializationId)">
+          <i class="fa fa-plus-circle mr-1"></i> Register Doctor
+        </button>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3 mb-0 rounded-3">
+        {{errorMessage}}
+      </div>
+    </form>
+  </div>
+</div>
