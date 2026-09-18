@@ -5,7 +5,7 @@
 > **System Architecture:** 3-Tier Enterprise Healthcare Application  
 > **Technologies:** Angular 14 (SPA), ASP.NET Core 6.0 Web API, Entity Framework Core, Microsoft SQL Server  
 
----
+----
 
 ## 📑 Table of Contents
 1. [Executive Summary](#1-executive-summary)
